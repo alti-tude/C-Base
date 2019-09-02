@@ -11,6 +11,7 @@ TableObj TableObj::getByColumns(std::vector<std::string> cols){
         int col_index = this->col_map[it];
         table.addColumn(it, this->cols[col_index]);    
     }
+    return table;
 }
 void TableObj::addColumn(std::string col_name, std::vector<int> col_data){
     if(this->col_map.find(col_name) != this->col_map.end())
@@ -23,7 +24,8 @@ void TableObj::addColumn(std::string col_name, std::vector<int> col_data){
 }
 
 void TableObj::addRow(std::vector<int> row){
-    while(row.size()!=this->num_cols) row.push_back(NULL_VAL);
+    while(row.size()!=this->num_cols) 
+        row.push_back(NULL_VAL);
 
     for(int i=0;i<this->num_cols;i++)
         this->cols[i].push_back(row[i]); 

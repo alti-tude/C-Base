@@ -13,7 +13,6 @@ public:
 //Every vector stores one column. To add a col, add a new vector, to add a record, add one to the end of every vector.
     std::vector<std::vector<int> > cols;
     TableObj():num_cols(0),num_rows(0){}
-    ~TableObj();
 
     TableObj getByColumns(std::vector<std::string> cols);
     void addColumn(std::string col_name, std::vector<int> col_data);
@@ -26,8 +25,8 @@ private:
     std::map<std::string, int> table_map;
     int num_tables;
 public:
+    Database(std::string schema, std::string data_folder);
     Database():num_tables(0){}
-    ~Database();
 
     TableObj getTable(std::string name);
     void addTable(std::string name, TableObj table);
