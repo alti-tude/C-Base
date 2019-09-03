@@ -6,17 +6,22 @@
 
 class TableObj{
 private:
-    std::map<std::string, int> col_map;
-    int num_cols;
-    int num_rows;
 public:
 //Every vector stores one column. To add a col, add a new vector, to add a record, add one to the end of every vector.
+    std::map<std::string, int> col_map;
     std::vector<std::vector<int> > cols;
-    TableObj():num_cols(0),num_rows(0){}
+    int num_cols;
+    int num_rows;
 
-    TableObj getByColumns(std::vector<std::string> cols);
+    TableObj():num_cols(0),num_rows(0){}
+    TableObj(TableObj table1, TableObj table2);
+
+    bool checkColumnExists(std::string col) {return this->col_map.find(col)==this->col_map.end();}
+    TableObj getColumn(std::vector<std::string> cols);
     void addColumn(std::string col_name, std::vector<int> col_data);
     void addRow(std::vector<int> row);
+    std::vector<int> getRecord(int idx);
+    std::string prints();
 };
 
 class Database{

@@ -1,6 +1,36 @@
 #include "main.h"
 
-TableObj TableObj::getByColumns(std::vector<std::string> cols){
+TableObj::TableObj(TableObj table1, TableObj table2):num_cols(0),num_rows(0){
+    std::vector<int> empty;
+
+    // copy columns from table1
+    std::vector<std::string> names(table1.num_cols);
+    for(auto it:table1.col_map) names[it.second] = it.first;
+
+    for(auto it:names) this->addColumn(it, empty);
+
+    //copy columns from table2
+    std::vector<std::string> names2(table2.num_cols);
+    for(auto it:table2.col_map) names2[it.second] = it.first;
+
+    for(auto it:names2) this->addColumn(it, empty);
+
+
+    //cross product
+    for(int i=0;i<table1.num_rows;i++){
+        std::vector<int> record1 = table1.getRecord(i);
+
+        for(int j=0;j<table2.num_rows;j++){
+            std::vector<int> record2 = table2.getRecord(i);
+            std::vector<int> trecord = record1;
+            trecord.insert(trecord.end(), record2.begin(), record2.end());
+
+            this->addRow(trecord);
+        }
+    }
+}
+
+TableObj TableObj::getColumn(std::vector<std::string> cols){
     TableObj table = TableObj();
     
     // it is the colname
@@ -29,4 +59,36 @@ void TableObj::addRow(std::vector<int> row){
 
     for(int i=0;i<this->num_cols;i++)
         this->cols[i].push_back(row[i]); 
+    this->num_rows ++;
+}
+
+std::vector<int> TableObj::getRecord(int idx){
+    if(idx>=this->num_rows) 
+        throw "The record index is out of bounds";
+    
+    std::vector<int> record;
+
+    for(int i=0;i<this->num_cols;i++){
+        record.push_back(this->cols[i][idx]);
+    }
+    return record;
+}
+
+std::string TableObj::prints(){
+    std::stringstream ss;
+    ss << "Num_cols: " << this->num_cols <<"\n";
+    ss << "Num_rows: " << this->num_rows <<"\n";
+
+    std::vector<std::string> names(this->num_cols);
+    for(auto it:this->col_map) names[it.second] = it.first;
+    for(auto it:names) ss << it <<"\t";
+    ss << std::endl;
+
+    for(int i=0;i<this->num_rows;i++) {
+        std::vector<int> record = this->getRecord(i);
+        for(auto it:record) ss << it <<"\t\t";
+        ss << std::endl;
+    }
+
+    return ss.str();
 }

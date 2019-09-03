@@ -27,7 +27,6 @@ Database::Database(std::string schema, std::string data_folder):num_tables(0){
 }
 
 TableObj Database::getTable(std::string name){   
-    // it is the colname
     if(this->table_map.find(name)==this->table_map.end()) 
         throw "Table with name ("+name+") doesn't exist.";
     
