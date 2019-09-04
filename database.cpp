@@ -36,7 +36,7 @@ void Database::addTable(std::string table_name, TableObj table){
     if(this->table_map.find(table_name) != this->table_map.end())
         throw "Table of this name already exists";
 
-    std::cout << "Adding table with name" << table_name << "\n";
+    std::cout << "Adding table with name " << table_name << "\n";
     this->table_map[table_name] = this->num_tables++;
     this->tables.push_back(table);
 }
